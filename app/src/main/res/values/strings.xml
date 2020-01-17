@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">FetchPost</string>
+    <string name="Username">Username</string>
+    <string name="Pass">Password</string>
+    <string name="login">Login</string>
+    <string name="last_name">Last Name</string>
+    <string name="first_name">First Name</string>
+    <string name="re_enter_pass">Re-enter Password</string>
+    <string name="register">Register</string>
+    <string name="email">Email</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="not_registered">Not Registered?</string>
+    <string name="already_member">Already a member?</string>
+    <string name="submit">Submit</string>
+</resources>
