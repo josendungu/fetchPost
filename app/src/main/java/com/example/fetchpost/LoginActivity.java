@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -27,12 +30,15 @@ public class LoginActivity extends AppCompatActivity {
     private Context mContext;
     private String member_id;
     private static final String TAG = "LoginActivity";
-    private String err;
+    public static final  String MESSAGE = "com.example.fetchpost.MESSAGE";
+    private View view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        displayMessages();
 
 
         mContext = this;
@@ -43,13 +49,14 @@ public class LoginActivity extends AppCompatActivity {
         tvDisp = (TextView)findViewById(R.id.textView);
         register = (TextView)findViewById(R.id.link_reg);
         tvforgot = (TextView)findViewById(R.id.forgot);
+        view = (ConstraintLayout)findViewById(R.id.view);
 
 
         BtSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TxtUsername = EtUsername.getText().toString();
-                TxtPassword = EtPass.getText().toString();
+                TxtUsername = EtUsername.getText().toString().trim();
+                TxtPassword = EtPass.getText().toString().trim();
 
                 new LoginTask().execute();
 
@@ -73,6 +80,18 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void displayMessages() {
+        String message = getIntent().getStringExtra(MESSAGE);
+        Log.d(TAG, "displayMessages: entered"+message);
+        if(message != null){
+            Log.d(TAG, "displayMessages: "+message);
+            Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+                    .show();
+        }
+
+
     }
 
     public class LoginTask extends AsyncTask<String,String,String> {

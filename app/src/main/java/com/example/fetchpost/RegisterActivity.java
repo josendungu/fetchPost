@@ -60,13 +60,13 @@ public class RegisterActivity extends AppCompatActivity {
                 //check if phone number is  already used
                 //check if passwords match
 
-                FName = etFirstName.getText().toString();
-                Email = etEmail.getText().toString();
-                Phone = etPhone.getText().toString();
-                LName = etLastName.getText().toString();
-                Username = etUsername.getText().toString();
-                Pass = EtPass.getText().toString();
-                PassConf = etPassConf.getText().toString();
+                FName = etFirstName.getText().toString().trim();
+                Email = etEmail.getText().toString().trim();
+                Phone = etPhone.getText().toString().trim();
+                LName = etLastName.getText().toString().trim();
+                Username = etUsername.getText().toString().trim();
+                Pass = EtPass.getText().toString().trim();
+                PassConf = etPassConf.getText().toString().trim();
 
 //                if (emailExists()){
 //

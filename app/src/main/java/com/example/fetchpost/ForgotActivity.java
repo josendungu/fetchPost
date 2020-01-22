@@ -1,6 +1,7 @@
 package com.example.fetchpost;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,7 +30,6 @@ public class ForgotActivity extends AppCompatActivity {
         setContentView(R.layout.activity_forgot);
 
         mContext = this;
-
         etUsername = (EditText)findViewById(R.id.username);
         etPass = (EditText)findViewById(R.id.password1);
         etPassConf = (EditText)findViewById(R.id.password2);
@@ -38,12 +38,12 @@ public class ForgotActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                username = etUsername.getText().toString();
-                pass = etPass.getText().toString();
-                passConf = etPassConf.getText().toString();
+                username = etUsername.getText().toString().trim();
+                pass = etPass.getText().toString().trim();
+                passConf = etPassConf.getText().toString().trim();
 
                 if(pass.equals(passConf)){
-                    new forgotTask().execute();
+                    new ForgotTask().execute();
                 } else {
                     Log.d(TAG, "onClick: Pass don't match");
                 }
@@ -53,16 +53,20 @@ public class ForgotActivity extends AppCompatActivity {
 
     }
 
-    public class forgotTask extends AsyncTask<String,String,String>{
+    public class ForgotTask extends AsyncTask<String,String,String>{
 
         String result;
 
         @Override
         protected void onPostExecute(String s) {
-
+            Log.d(TAG, "onPostExecute: "+result);
             if(result.equals(savedInfo.success)){
-
+                Intent intent = new Intent(mContext, LoginActivity.class);
+                intent.putExtra(LoginActivity.MESSAGE, "Successfully changed your password");
+                Log.d(TAG, "onPostExecute: Message passed");
+                startActivity(intent);
             }
+
             super.onPostExecute(s);
         }
 
