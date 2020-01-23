@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,7 +21,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     EditText etFirstName, etLastName, etUsername, EtPass, etPassConf, etPhone, etEmail;
     Button btRegister;
-    String FName, LName, Username, Pass, PassConf, Email, Phone, member_id;
+    String FName, LName, Username, Pass, PassConf, Email, Phone, responce;
     TextView login_link;
     Context mContext;
     private static final String TAG = "RegisterActivity";
@@ -93,6 +94,19 @@ public class RegisterActivity extends AppCompatActivity {
 
     public class RegisterTask extends AsyncTask<String,String,String> {
 
+        @Override
+        protected void onPostExecute(String s) {
+            Log.d(TAG, "onPostExecute: "+responce);
+            if (responce.equals(savedInfo.success)){
+                Intent intent = new Intent(mContext, LoginActivity.class);
+                intent.putExtra(LoginActivity.MESSAGE, Username+" your account was successfully created. Please login!");
+                intent.putExtra(LoginActivity.USERNAME_PASSED, Username);
+                startActivity(intent);
+            }
+
+            super.onPostExecute(s);
+        }
+
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected String doInBackground(String... strings) {
@@ -104,12 +118,12 @@ public class RegisterActivity extends AppCompatActivity {
                         +"&&"+URLEncoder.encode("email","UTF-8")+"="+URLEncoder.encode(Email,"UTF-8")
                         +"&&"+URLEncoder.encode("phone","UTF-8")+"="+URLEncoder.encode(Phone,"UTF-8");
                 DB_con db = new DB_con(mContext,savedInfo.baseUrl+savedInfo.add_member, data);
-                member_id = db.getConnection();
+                responce = db.getConnection();
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
 
-            return member_id;
+            return responce;
         }
     }
 

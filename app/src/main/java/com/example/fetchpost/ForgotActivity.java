@@ -13,6 +13,8 @@ import android.widget.EditText;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -21,6 +23,7 @@ public class ForgotActivity extends AppCompatActivity {
     EditText etUsername, etPass, etPassConf;
     Button btnSubmit;
     String username, pass, passConf;
+    View view;
     Context mContext;
     private static final String TAG = "ForgotActivity";
 
@@ -34,6 +37,7 @@ public class ForgotActivity extends AppCompatActivity {
         etPass = (EditText)findViewById(R.id.password1);
         etPassConf = (EditText)findViewById(R.id.password2);
         btnSubmit = (Button)findViewById(R.id.submit);
+        view = (View)findViewById(R.id.view);
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +69,8 @@ public class ForgotActivity extends AppCompatActivity {
                 intent.putExtra(LoginActivity.MESSAGE, "Successfully changed your password");
                 Log.d(TAG, "onPostExecute: Message passed");
                 startActivity(intent);
+            } else {
+                Snackbar.make(view, result,Snackbar.LENGTH_LONG).show();
             }
 
             super.onPostExecute(s);

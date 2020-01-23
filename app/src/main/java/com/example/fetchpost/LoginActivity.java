@@ -28,10 +28,11 @@ public class LoginActivity extends AppCompatActivity {
     private Button BtSubmit;
     protected String TxtUsername, TxtPassword;
     private Context mContext;
-    private String member_id;
+    private String responce;
     private static final String TAG = "LoginActivity";
     public static final  String MESSAGE = "com.example.fetchpost.MESSAGE";
-    private View view;
+    public static final  String USERNAME_PASSED = "com.example.fetchpost.USERNAME";
+    ConstraintLayout constraintLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         displayMessages();
-
+        initializeUsername();
 
         mContext = this;
 
@@ -49,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         tvDisp = (TextView)findViewById(R.id.textView);
         register = (TextView)findViewById(R.id.link_reg);
         tvforgot = (TextView)findViewById(R.id.forgot);
-        view = (ConstraintLayout)findViewById(R.id.view);
+        constraintLayout = findViewById(R.id.view);
 
 
         BtSubmit.setOnClickListener(new View.OnClickListener() {
@@ -82,12 +83,19 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void initializeUsername() {
+        String username = getIntent().getStringExtra(USERNAME_PASSED);
+        if(username != null){
+            EtUsername.setText(username);
+        }
+    }
+
     private void displayMessages() {
         String message = getIntent().getStringExtra(MESSAGE);
         Log.d(TAG, "displayMessages: entered"+message);
         if(message != null){
             Log.d(TAG, "displayMessages: "+message);
-            Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+            Snackbar.make(constraintLayout, message, Snackbar.LENGTH_LONG)
                     .show();
         }
 
@@ -103,19 +111,25 @@ public class LoginActivity extends AppCompatActivity {
                 String data = URLEncoder.encode("username","UTF-8")+"="+URLEncoder.encode(TxtUsername,"UTF-8")
                         +"&&"+URLEncoder.encode("pass","UTF-8")+"="+URLEncoder.encode(TxtPassword,"UTF-8");
                 DB_con db = new DB_con(mContext,savedInfo.baseUrl+savedInfo.login, data);
-                member_id = db.getConnection();
+                responce = db.getConnection();
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
 
 
-            return member_id;
+            return responce;
         }
 
         @Override
         protected void onPostExecute(String s) {
-            Log.d(TAG, "onPostExecute: Changing" + member_id);
-            tvDisp.setText(member_id);
+
+            if (responce.equals(savedInfo.memDontExist)){
+                Log.d(TAG, "onPostExecute: in");
+                Snackbar.make(constraintLayout,"Member doesn't exist. Please check and try again",Snackbar.LENGTH_LONG)
+                        .show();
+            }
+            Log.d(TAG, "onPostExecute: Changing" + responce);
+            tvDisp.setText(responce);
             super.onPostExecute(s);
         }
     }
