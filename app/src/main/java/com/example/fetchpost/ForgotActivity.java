@@ -69,6 +69,8 @@ public class ForgotActivity extends AppCompatActivity {
                 intent.putExtra(LoginActivity.MESSAGE, "Successfully changed your password");
                 Log.d(TAG, "onPostExecute: Message passed");
                 startActivity(intent);
+            } else if(result.equals(savedInfo.memDontExist)) {
+                Snackbar.make(view, "The username doesn't exist. Please check and try again!",Snackbar.LENGTH_LONG).show();
             } else {
                 Snackbar.make(view, result,Snackbar.LENGTH_LONG).show();
             }

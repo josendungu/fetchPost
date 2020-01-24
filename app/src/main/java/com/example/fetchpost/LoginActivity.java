@@ -23,7 +23,7 @@ import java.net.URLEncoder;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText EtUsername, EtPass;
-    private TextView tvDisp, tvforgot;
+    private TextView  tvforgot;
     private TextView register;
     private Button BtSubmit;
     protected String TxtUsername, TxtPassword;
@@ -47,7 +47,6 @@ public class LoginActivity extends AppCompatActivity {
         EtUsername = (EditText)findViewById(R.id.username);
         EtPass = (EditText)findViewById(R.id.password);
         BtSubmit = (Button)findViewById(R.id.submit);
-        tvDisp = (TextView)findViewById(R.id.textView);
         register = (TextView)findViewById(R.id.link_reg);
         tvforgot = (TextView)findViewById(R.id.forgot);
         constraintLayout = findViewById(R.id.view);
@@ -86,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
     private void initializeUsername() {
         String username = getIntent().getStringExtra(USERNAME_PASSED);
         if(username != null){
+            Log.d(TAG, "initializeUsername: setting username");
             EtUsername.setText(username);
         }
     }
@@ -127,9 +127,15 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(TAG, "onPostExecute: in");
                 Snackbar.make(constraintLayout,"Member doesn't exist. Please check and try again",Snackbar.LENGTH_LONG)
                         .show();
+            } else if(responce.equals(savedInfo.success)){
+                Intent intent = new Intent(mContext, DashboardActivity.class);
+                intent.putExtra(DashboardActivity.USERNAME_REF, TxtUsername);
+                startActivity(intent);
+            } else if(responce.equals(savedInfo.passDontMatch)){
+                Snackbar.make(constraintLayout,"Incorrect password. Please check and try again",Snackbar.LENGTH_LONG)
+                        .show();
             }
             Log.d(TAG, "onPostExecute: Changing" + responce);
-            tvDisp.setText(responce);
             super.onPostExecute(s);
         }
     }

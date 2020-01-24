@@ -11,6 +11,7 @@ public class savedInfo {
 
     public static String success = "1";
     public static String memDontExist = "2";
+    public static String passDontMatch = "3";
 
 
 
