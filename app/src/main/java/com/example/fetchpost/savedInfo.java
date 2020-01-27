@@ -2,7 +2,7 @@ package com.example.fetchpost;
 
 public class savedInfo {
 
-    public static String baseUrl = "http://192.168.0.163/fetchpost/";
+    public static String baseUrl = "http://192.168.137.1/fetchpost/";
     //192.168.137.1
 
     public static String add_member = "register.php";

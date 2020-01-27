@@ -20,8 +20,7 @@ import java.net.URLEncoder;
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText etFirstName, etLastName, etUsername, etPass, etPassConf, etPhone, etEmail;
-    private Integer phone;
-    private String fName, lName, username, pass, passConf, email, responce, error;
+    private String fName, lName, username, pass, passConf, email, responce, error, phone;
     private Context mContext;
     private static final String TAG = "RegisterActivity";
 
@@ -62,35 +61,39 @@ public class RegisterActivity extends AppCompatActivity {
 
                 fName = etFirstName.getText().toString().trim();
                 email = etEmail.getText().toString().trim();
-                phone = Integer.parseInt(String.valueOf(etPhone.getText()));
+                phone = etPhone.getText().toString().trim();
                 lName = etLastName.getText().toString().trim();
                 username = etUsername.getText().toString().trim();
                 pass = etPass.getText().toString().trim();
                 passConf = etPassConf.getText().toString().trim();
 
                 Member member = new Member(username, email,phone,mContext);
+                new RegisterTask().execute();
 
-                try {
-                    if (!member.emailExists()){
-                            if (!member.usernameExists()){
-                                if(!member.phoneExists()){
-                                    if(pass.equals(passConf)){
-                                        new RegisterTask().execute();
-                                    }else{
-                                        error = "Passwords do not match! Please re-enter and try again.";
-                                    }
-                                }else{
-                                    //TODO: Produce dialog to alert phone number exists:: Choose to still use it
-                                }
-                            } else {
-                                error = "The username entered is already in use by another member! Enter another username and retry";
-                            }
-                    } else {
-                        error = "The email entered already exists! Please enter another and retry";
-                    }
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    if (!member.emailExists()){
+//                        Log.d(TAG, "onClick: email  exists");
+//                            if (!member.usernameExists()){
+//                                Log.d(TAG, "onClick: username");
+//                                if(!member.phoneExists()){
+//                                    if(pass.equals(passConf)){
+//                                        Log.d(TAG, "onClick: passwords");
+//                                        new RegisterTask().execute();
+//                                    }else{
+//                                        error = "Passwords do not match! Please re-enter and try again.";
+//                                    }
+//                                }else{
+//                                    //TODO: Produce dialog to alert phone number exists:: Choose to still use it
+//                                }
+//                            } else {
+//                                error = "The username entered is already in use by another member! Enter another username and retry";
+//                            }
+//                    } else {
+//                        error = "The email entered already exists! Please enter another and retry";
+//                    }
+//                } catch (UnsupportedEncodingException e) {
+//                    e.printStackTrace();
+//                }
 
             }
         });

@@ -11,8 +11,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 public class Member {
-    private String member_id, username, email;
-    private Integer phone;
+    private String member_id, username, email, phone;
     private Context context;
     private String data, responce;
 
@@ -21,7 +20,7 @@ public class Member {
         this.member_id = member_id;
     }
 
-    public Member(String username, String email, Integer phone, Context context) {
+    public Member(String username, String email, String phone, Context context) {
         this.username = username;
         this.email = email;
         this.context = context;
@@ -33,17 +32,20 @@ public class Member {
 
     public boolean usernameExists() throws UnsupportedEncodingException {
         data = URLEncoder.encode("username","UTF-8")+"="+URLEncoder.encode(username,"UTF-8");
+        new validate().execute();
         return responce.equals(savedInfo.success);
 
     }
 
     public boolean emailExists() throws UnsupportedEncodingException {
         data = URLEncoder.encode("email","UTF-8")+"="+URLEncoder.encode(email,"UTF-8");
+        new validate().execute();
         return responce.equals(savedInfo.success);
     }
 
     public boolean phoneExists() throws UnsupportedEncodingException {
         data = URLEncoder.encode("phone","UTF-8")+"="+URLEncoder.encode(String.valueOf(phone),"UTF-8");
+        new validate().execute();
         return responce.equals(savedInfo.success);
     }
 
