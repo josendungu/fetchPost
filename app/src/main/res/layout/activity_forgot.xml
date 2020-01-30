@@ -5,53 +5,100 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/view"
+    android:background="@drawable/bg_app"
     tools:context=".ForgotActivity">
 
     <EditText
         android:id="@+id/username"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="150dp"
+        android:background="@drawable/et_bg"
+        android:cursorVisible="true"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="@string/Username"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:inputType="textPersonName"
+        android:padding="15dp"
+        android:textColor="@color/colorPrimary"
+        android:textColorHint="@color/whiteText"
+        android:textCursorDrawable="@color/colorPrimary"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/password1"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:background="@drawable/et_bg"
+        android:cursorVisible="true"
         android:ems="10"
         android:hint="@string/Pass"
         android:importantForAutofill="no"
         android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:padding="15dp"
+        android:textColor="@color/colorPrimary"
+        android:textColorHint="@color/whiteText"
+        android:textCursorDrawable="@color/colorPrimary"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/username" />
 
     <EditText
         android:id="@+id/password2"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:background="@drawable/et_bg"
+        android:cursorVisible="true"
         android:ems="10"
-        android:inputType="textPassword"
         android:hint="@string/re_enter_pass"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password1"
-        android:importantForAutofill="no" />
+        android:importantForAutofill="no"
+        android:inputType="textPassword"
+        android:padding="15dp"
+        android:textColor="@color/colorPrimary"
+        android:textColorHint="@color/whiteText"
+        android:textCursorDrawable="@color/colorPrimary"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/password1" />
 
     <Button
         android:id="@+id/submit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:textColor="@color/colorPrimary"
+        android:background="@drawable/btn_bg"
+        android:text="@string/submit"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/password2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="@string/submit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password2" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="45dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="45dp" />
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="34dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/username"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@mipmap/ic_back"
+        android:contentDescription="@string/back_arrow" />
 </androidx.constraintlayout.widget.ConstraintLayout>

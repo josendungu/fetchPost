@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -51,14 +53,46 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
 
+        etUsername.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        etEmail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+
+
+
         btRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //check if already registered(email exists)
-                //check if username already exists
-                //check if phone number is  already used
-                //check if passwords match
-
                 fName = etFirstName.getText().toString().trim();
                 email = etEmail.getText().toString().trim();
                 phone = etPhone.getText().toString().trim();
@@ -70,30 +104,30 @@ public class RegisterActivity extends AppCompatActivity {
                 Member member = new Member(username, email,phone,mContext);
                 new RegisterTask().execute();
 
-//                try {
-//                    if (!member.emailExists()){
-//                        Log.d(TAG, "onClick: email  exists");
-//                            if (!member.usernameExists()){
-//                                Log.d(TAG, "onClick: username");
-//                                if(!member.phoneExists()){
-//                                    if(pass.equals(passConf)){
-//                                        Log.d(TAG, "onClick: passwords");
-//                                        new RegisterTask().execute();
-//                                    }else{
-//                                        error = "Passwords do not match! Please re-enter and try again.";
-//                                    }
-//                                }else{
-//                                    //TODO: Produce dialog to alert phone number exists:: Choose to still use it
-//                                }
-//                            } else {
-//                                error = "The username entered is already in use by another member! Enter another username and retry";
-//                            }
-//                    } else {
-//                        error = "The email entered already exists! Please enter another and retry";
-//                    }
-//                } catch (UnsupportedEncodingException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    if (!member.emailExists()){
+                        Log.d(TAG, "onClick: email  exists");
+                            if (!member.usernameExists()){
+                                Log.d(TAG, "onClick: username");
+                                if(!member.phoneExists()){
+                                    if(pass.equals(passConf)){
+                                        Log.d(TAG, "onClick: passwords");
+                                        new RegisterTask().execute();
+                                    }else{
+                                        error = "Passwords do not match! Please re-enter and try again.";
+                                    }
+                                }else{
+                                    //TODO: Produce dialog to alert phone number exists:: Choose to still use it
+                                }
+                            } else {
+                                error = "The username entered is already in use by another member! Enter another username and retry";
+                            }
+                    } else {
+                        error = "The email entered already exists! Please enter another and retry";
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
 
             }
         });
