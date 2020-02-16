@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 String data = URLEncoder.encode("username","UTF-8")+"="+URLEncoder.encode(TxtUsername,"UTF-8")
                         +"&&"+URLEncoder.encode("pass","UTF-8")+"="+URLEncoder.encode(TxtPassword,"UTF-8");
-                DB_con db = new DB_con(mContext,savedInfo.baseUrl+savedInfo.login, data);
+                DB_con db = new DB_con(mContext,savedInfo.login, data);
                 responce = db.getConnection();
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();

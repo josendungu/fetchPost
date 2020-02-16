@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:background="@drawable/bg_app"
-    android:layout_height="match_parent"
-    tools:context=".RegisterActivity">
+    tools:context=".RegisterActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
 
         <EditText
             android:id="@+id/FirstName"
@@ -161,26 +167,38 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guidelineRight"
             app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-            app:layout_constraintTop_toBottomOf="@+id/register"
+            app:layout_constraintTop_toBottomOf="@+id/footer"
             app:layout_constraintVertical_bias="0.885" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/signin_google"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:background="@drawable/bg_textview"
             android:drawableStart="@drawable/google"
             android:drawableLeft="@drawable/google"
             android:drawablePadding="17dp"
             android:padding="14dp"
-            android:text="@string/login_google"
+            android:text="@string/sign_google"
             android:textColor="@color/gradientTop"
             android:textSize="17sp"
-            app:layout_constraintBottom_toTopOf="@+id/login_link"
             app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
             app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
             app:layout_constraintTop_toBottomOf="@+id/register" />
 
+
+        <View
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="1dp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintBottom_toTopOf="@+id/login_link"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/signin_google" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidelineLeft"
@@ -195,4 +213,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_end="45dp" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

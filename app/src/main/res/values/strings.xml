@@ -16,4 +16,5 @@
     <string name="or">or</string>
     <string name="login_google">Login with google</string>
     <string name="back_arrow">back arrow</string>
+    <string name="sign_google">Sign-in with google</string>
 </resources>

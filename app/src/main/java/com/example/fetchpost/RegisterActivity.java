@@ -159,7 +159,7 @@ public class RegisterActivity extends AppCompatActivity {
                         +"&&"+URLEncoder.encode("last_name","UTF-8")+"="+URLEncoder.encode(lName,"UTF-8")
                         +"&&"+URLEncoder.encode("email","UTF-8")+"="+URLEncoder.encode(email,"UTF-8");
 //                        +"&&"+URLEncoder.encode("phone","UTF-8")+"="+URLEncoder.encode(Phone,"UTF-8");TODO: add phone after converting to integer
-                DB_con db = new DB_con(mContext,savedInfo.baseUrl+savedInfo.add_member, data);
+                DB_con db = new DB_con(mContext,savedInfo.add_member, data);
                 responce = db.getConnection();
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();

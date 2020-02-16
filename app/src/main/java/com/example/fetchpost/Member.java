@@ -11,9 +11,33 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 public class Member {
-    private String member_id, username, email, phone;
+    private String member_id, username, email, phone, fname, lname;
     private Context context;
     private String data, responce;
+
+    public String getMember_id() {
+        return member_id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getFname() {
+        return fname;
+    }
+
+    public String getLname() {
+        return lname;
+    }
 
 
     public Member(String member_id) {
