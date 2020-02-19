@@ -39,8 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        displayMessages();
-        initializeUsername();
+
 
         mContext = this;
 
@@ -50,6 +49,9 @@ public class LoginActivity extends AppCompatActivity {
         register = (TextView)findViewById(R.id.link_reg);
         tvforgot = (TextView)findViewById(R.id.forgot);
         constraintLayout = findViewById(R.id.view);
+
+        displayMessages();
+        initializeUsername();
 
 
         BtSubmit.setOnClickListener(new View.OnClickListener() {
@@ -92,10 +94,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void displayMessages() {
         String message = getIntent().getStringExtra(MESSAGE);
-        Log.d(TAG, "displayMessages: entered"+message);
         if(message != null){
-            Log.d(TAG, "displayMessages: "+message);
-            Snackbar.make(constraintLayout, message, Snackbar.LENGTH_LONG)
+            Snackbar.make(constraintLayout,"Successfully changed",Snackbar.LENGTH_LONG)
                     .show();
         }
 
@@ -124,7 +124,6 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
 
             if (responce.equals(savedInfo.memDontExist)){
-                Log.d(TAG, "onPostExecute: in");
                 Snackbar.make(constraintLayout,"Member doesn't exist. Please check and try again",Snackbar.LENGTH_LONG)
                         .show();
             } else if(responce.equals(savedInfo.success)){
@@ -135,7 +134,6 @@ public class LoginActivity extends AppCompatActivity {
                 Snackbar.make(constraintLayout,"Incorrect password. Please check and try again",Snackbar.LENGTH_LONG)
                         .show();
             }
-            Log.d(TAG, "onPostExecute: Changing" + responce);
             super.onPostExecute(s);
         }
     }
