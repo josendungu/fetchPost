@@ -9,6 +9,8 @@ public class savedInfo {
     public static String login = baseUrl+"login.php";
     public static String forgot = baseUrl+"forgot.php";
     public static String validate = baseUrl+"validate.php";
+    public static String memberDet = baseUrl+"member.php";
+
 
     public static String success = "1";
     public static String memDontExist = "2";

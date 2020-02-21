@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,10 +20,10 @@ import java.net.URLEncoder;
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText etFirstName, etLastName, etUsername, etPass, etPassConf, etPhone, etEmail;
-    private String fName, lName, username, pass, passConf, email, responce, error, phone;
+    private String fName, lName, username, pass, passConf, email, responce, phone;
     private Context mContext;
     private static final String TAG = "RegisterActivity";
-
+    Boolean usernameState  , emailState ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,47 +50,16 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-
-        etUsername.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        etEmail.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-
-
-
         btRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                etEmail.setError(null);
+                etPass.setError(null);
+                etLastName.setError(null);
+                etFirstName.setError(null);
+                etPassConf.setError(null);
+                etPhone.setError(null);
+                etUsername.setError(null);
                 fName = etFirstName.getText().toString().trim();
                 email = etEmail.getText().toString().trim();
                 phone = etPhone.getText().toString().trim();
@@ -101,33 +68,40 @@ public class RegisterActivity extends AppCompatActivity {
                 pass = etPass.getText().toString().trim();
                 passConf = etPassConf.getText().toString().trim();
 
-                Member member = new Member(username, email,phone,mContext);
-                new RegisterTask().execute();
+                usernameState = false;
+                emailState = false;
 
-                try {
-                    if (!member.emailExists()){
-                        Log.d(TAG, "onClick: email  exists");
-                            if (!member.usernameExists()){
-                                Log.d(TAG, "onClick: username");
-                                if(!member.phoneExists()){
-                                    if(pass.equals(passConf)){
-                                        Log.d(TAG, "onClick: passwords");
-                                        new RegisterTask().execute();
-                                    }else{
-                                        error = "Passwords do not match! Please re-enter and try again.";
-                                    }
-                                }else{
-                                    //TODO: Produce dialog to alert phone number exists:: Choose to still use it
-                                }
-                            } else {
-                                error = "The username entered is already in use by another member! Enter another username and retry";
-                            }
-                    } else {
-                        error = "The email entered already exists! Please enter another and retry";
+                if(fName == null){
+                    etFirstName.setError("Please enter your first name");
+                } else if(email == null){
+                    etEmail.setError("Please enter your email.");
+                } else if(phone == null){
+                    etPhone.setError("Please enter your phone number.");
+                } else if(lName == null){
+                    etLastName.setError("Please enter your email.");
+                } else if(pass == null){
+                    etPass.setError("Please a password for your account.");
+                } else if(username == null){
+                    etUsername.setError("Please enter un unique username.");
+                } else if(passConf == null){
+                    etEmail.setError("Please confirm the password entered.");
+                } else {
+                    try {
+                        new ValEmail().execute();
+                        new ValUsername().execute();
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
                     }
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
+
+                    if(usernameState){
+                        etUsername.setError("Username already taken");
+                    } else if(emailState){
+                        etEmail.setError("Email already in use");
+                    } else {
+                        new RegisterTask().execute();
+                    }
                 }
+
 
             }
         });
@@ -141,7 +115,7 @@ public class RegisterActivity extends AppCompatActivity {
             Log.d(TAG, "onPostExecute: "+responce);
             if (responce.equals(savedInfo.success)){
                 Intent intent = new Intent(mContext, LoginActivity.class);
-                intent.putExtra(LoginActivity.MESSAGE, username +" your account was successfully created. Please login!");
+                intent.putExtra(LoginActivity.MESSAGE, username +" Your account was successfully created. Please login!");
                 intent.putExtra(LoginActivity.USERNAME_PASSED, username);
                 startActivity(intent);
             }
@@ -157,8 +131,8 @@ public class RegisterActivity extends AppCompatActivity {
                         +"&&"+URLEncoder.encode("pass","UTF-8")+"="+URLEncoder.encode(pass,"UTF-8")
                         +"&&"+URLEncoder.encode("first_name","UTF-8")+"="+URLEncoder.encode(fName,"UTF-8")
                         +"&&"+URLEncoder.encode("last_name","UTF-8")+"="+URLEncoder.encode(lName,"UTF-8")
-                        +"&&"+URLEncoder.encode("email","UTF-8")+"="+URLEncoder.encode(email,"UTF-8");
-//                        +"&&"+URLEncoder.encode("phone","UTF-8")+"="+URLEncoder.encode(Phone,"UTF-8");TODO: add phone after converting to integer
+                        +"&&"+URLEncoder.encode("email","UTF-8")+"="+URLEncoder.encode(email,"UTF-8")
+                        +"&&"+URLEncoder.encode("phone","UTF-8")+"="+URLEncoder.encode(phone,"UTF-8");
                 DB_con db = new DB_con(mContext,savedInfo.add_member, data);
                 responce = db.getConnection();
             } catch (UnsupportedEncodingException e) {
@@ -166,6 +140,49 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
             return responce;
+        }
+    }
+
+    public class ValUsername extends AsyncTask<String, String,String>{
+        String valResponce;
+        String data = URLEncoder.encode("username","UTF-8")+"="+URLEncoder.encode(username,"UTF-8");
+
+        public ValUsername() throws UnsupportedEncodingException {
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        protected String doInBackground(String... strings) {
+            DB_con db = new DB_con(mContext,savedInfo.validate, data);
+            valResponce = db.getConnection();
+            if(valResponce.equals(savedInfo.success)){
+                Log.d(TAG, "doInBackground: saved: in");
+                usernameState = true;
+            }
+            Log.d(TAG, "doInBackground: " + valResponce);
+            return null;
+        }
+    }
+
+    public class ValEmail extends AsyncTask<String, String,String>{
+        String valResponce;
+        String data = URLEncoder.encode("email","UTF-8")+"="+URLEncoder.encode(email,"UTF-8");
+
+        public ValEmail() throws UnsupportedEncodingException {
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        protected String doInBackground(String... strings) {
+            DB_con db = new DB_con(mContext,savedInfo.validate, data);
+            valResponce = db.getConnection();
+            if(valResponce.equals(savedInfo.success)){
+                emailState = true;
+            }
+            Log.d(TAG, "doInBackground2: " + valResponce);
+            return null;
+
+
         }
     }
 

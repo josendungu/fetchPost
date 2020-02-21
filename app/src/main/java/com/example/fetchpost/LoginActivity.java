@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
     private void displayMessages() {
         String message = getIntent().getStringExtra(MESSAGE);
         if(message != null){
-            Snackbar.make(constraintLayout,"Successfully changed",Snackbar.LENGTH_LONG)
+            Snackbar.make(constraintLayout,message,Snackbar.LENGTH_LONG)
                     .show();
         }
 
