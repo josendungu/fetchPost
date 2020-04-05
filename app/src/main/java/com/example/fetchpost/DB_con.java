@@ -27,6 +27,11 @@ public class DB_con{
 
 
 
+    public DB_con(Context context, String url) {
+        this.Url = url;
+        this.mContext = context;
+    }
+
     public DB_con(Context context, String url, String data) {
         this.data = data;
         this.Url = url;
