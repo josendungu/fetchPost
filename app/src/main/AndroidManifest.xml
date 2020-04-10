@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ForgotActivity"></activity>
+        <activity android:name=".MemberViewActivity"></activity>
+        <activity android:name=".ForgotActivity" />
         <activity android:name=".DashboardActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity">
