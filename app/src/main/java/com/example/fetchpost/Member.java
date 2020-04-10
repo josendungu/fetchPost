@@ -9,6 +9,7 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -20,13 +21,18 @@ public class Member {
 
     private static final String TAG = "Member";
 
-    Member(String username, Context context) throws JSONException {
+    Member(String username, Context context) {
         this.username = username;
         this.mContext = context;
         new MemberFetch().execute();
-        //JSONObject obj = new JSONObject(responce);
-        //Log.d(TAG, "Member: data: "+ obj.getJSONObject("fname"));
 
+    }
+
+    Member(String username, String fName, String lName, String member_id){
+        setMember_id(member_id);
+        setFname(fName);
+        setLname(lName);
+        setUsername(username);
     }
 
 
@@ -78,7 +84,14 @@ public class Member {
         return lname;
     }
 
-    public void setData() {
+    private void setData(JSONObject json) throws JSONException {
+        setMember_id(json.getString("member_id"));
+        setEmail(json.getString("email"));
+        setPhone(json.getString("phone"));
+        setFname(json.getString("fname"));
+        setLname(json.getString("lname"));
+
+
 
     }
 
@@ -92,21 +105,19 @@ public class Member {
                 String data = URLEncoder.encode("username","UTF-8")+"="+URLEncoder.encode(username,"UTF-8");
                 DB_con db = new DB_con(mContext, savedInfo.memberFetch, data);
                 responce = db.getConnection();
-                Log.d(TAG, "doInBackground: Responce : " +responce);
+                JSONObject json_data = new JSONObject(responce);
+                setData(json_data);
+                Log.d(TAG, "doInBackground: json : " +json_data.getString("lname"));
             } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
             return null;
         }
     }
 
-    public class MemberFetchAll extends AsyncTask<String, String, String>{
-        @Override
-        protected String doInBackground(String... strings) {
-            DB_con db = new DB_con(mContext, savedInfo.memberFetchAll);
-            return null;
-        }
-    }
+
 
 
 
