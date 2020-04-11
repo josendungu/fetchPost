@@ -26,7 +26,8 @@ public class DashboardActivity extends AppCompatActivity {
     private static final String TAG = "DashboardActivity";
 
     private Context mContext;
-    private List<Member> memberList = new ArrayList<>();
+    private RecyclerView mRecyclerItems;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,25 +36,34 @@ public class DashboardActivity extends AppCompatActivity {
 
         mContext = this;
         TextView tvUsername = (TextView) findViewById(R.id.username);
+        mRecyclerItems = (RecyclerView) findViewById(R.id.member_list);
 
-        String username = getIntent().getStringExtra(USERNAME_REF);
-        Member member = new Member(username, mContext);
+        String logged_username = getIntent().getStringExtra(USERNAME_REF);
+        Member logged_member = new Member(logged_username, mContext);
 
-        tvUsername.setText(member.getUsername().toUpperCase());
+        tvUsername.setText(logged_member.getUsername().toUpperCase());
         new MemberFetchAll().execute();
 
-        RecyclerView mRecyclerItems = (RecyclerView) findViewById(R.id.member_list);
+
+
+    }
+
+    public void initializeDisplay(List<Member> memberList){
+        Log.d(TAG, "initializeDisplay: size: " + memberList.size());
         LinearLayoutManager mMemberLayoutManager = new LinearLayoutManager(this);
         MemberRecyclerAdapter mMemberRecyclerAdapter = new MemberRecyclerAdapter(this, memberList);
         mRecyclerItems.setLayoutManager(mMemberLayoutManager);
         mRecyclerItems.setAdapter(mMemberRecyclerAdapter);
         mMemberRecyclerAdapter.notifyDataSetChanged();
 
-
-
     }
 
     public class MemberFetchAll extends AsyncTask<String,String,String>{
+
+
+        private String mResponse;
+        private List<Member> memberList = new ArrayList<>();
+        private JSONArray mJsonArray;
 
         @Override
         protected void onPreExecute() {
@@ -68,27 +78,35 @@ public class DashboardActivity extends AppCompatActivity {
                 String token = "token";
                 String data = URLEncoder.encode("username","UTF-8")+"="+URLEncoder.encode(token,"UTF-8");
                 DB_con db = new DB_con(mContext, savedInfo.memberFetchAll, data);
-                String responce = db.getConnection();
-                JSONArray jsonArray = new JSONArray(responce);
-                int i = 0;
-                while(i < jsonArray.length()){
-                    JSONObject myObj = jsonArray.getJSONObject(i);
-                    String member_id = myObj.getString("member_id");
-                    String username = myObj.getString("username");
-                    String fName = myObj.getString("fname");
-                    String lName = myObj.getString("lname");
+                mResponse = db.getConnection();
 
-                    Member member = new Member(username, fName,lName, member_id);
-                    memberList.add(member);
-                    Log.d(TAG, "doInBackground: individual "+ myObj);
-                    i++;
-                }
+
             } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
                 e.printStackTrace();
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.d(TAG, "onPostExecute: response: "+ mResponse);
+            try {
+                mJsonArray = new JSONArray(mResponse);
+                int i = 0;
+                while(i < mJsonArray.length()){
+                    JSONObject myObj = mJsonArray.getJSONObject(i);
+
+                    Member member = new Member();
+                    member.setData(myObj);
+                    memberList.add(member);
+                    Log.d(TAG, "onPostExecute: size" + memberList.size());
+                    i++;
+                }
+                initializeDisplay(memberList);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -21,6 +21,8 @@ public class Member {
 
     private static final String TAG = "Member";
 
+    Member(){}
+
     Member(String username, Context context) {
         this.username = username;
         this.mContext = context;
@@ -28,12 +30,6 @@ public class Member {
 
     }
 
-    Member(String username, String fName, String lName, String member_id){
-        setMember_id(member_id);
-        setFname(fName);
-        setLname(lName);
-        setUsername(username);
-    }
 
 
     public void setMember_id(String member_id) {
@@ -84,14 +80,13 @@ public class Member {
         return lname;
     }
 
-    private void setData(JSONObject json) throws JSONException {
+    void setData(JSONObject json) throws JSONException {
         setMember_id(json.getString("member_id"));
+        setUsername(json.getString("username"));
+        setLname(json.getString("lname"));
+        setFname(json.getString("fname"));
         setEmail(json.getString("email"));
         setPhone(json.getString("phone"));
-        setFname(json.getString("fname"));
-        setLname(json.getString("lname"));
-
-
 
     }
 
