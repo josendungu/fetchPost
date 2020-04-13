@@ -83,7 +83,7 @@ public class ForgotActivity extends AppCompatActivity {
             try {
                 String data = URLEncoder.encode("username","UTF-8")+"="+URLEncoder.encode(username,"UTF-8")
                         +"&&"+URLEncoder.encode("pass","UTF-8")+"="+URLEncoder.encode(pass,"UTF-8");
-                DB_con db = new DB_con(mContext,savedInfo.forgot, data);
+                DB_con db = new DB_con(savedInfo.forgot, data);
                 result = db.getConnection();
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();

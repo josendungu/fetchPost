@@ -40,8 +40,8 @@ public class DashboardActivity extends AppCompatActivity {
 
         String logged_username = getIntent().getStringExtra(USERNAME_REF);
         Member logged_member = new Member(logged_username, mContext);
-
-        tvUsername.setText(logged_member.getUsername().toUpperCase());
+        String welcome_text = "Welcome " + logged_member.getUsername().toUpperCase();
+        tvUsername.setText(welcome_text);
         new MemberFetchAll().execute();
 
 
@@ -49,9 +49,8 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     public void initializeDisplay(List<Member> memberList){
-        Log.d(TAG, "initializeDisplay: size: " + memberList.size());
         LinearLayoutManager mMemberLayoutManager = new LinearLayoutManager(this);
-        MemberRecyclerAdapter mMemberRecyclerAdapter = new MemberRecyclerAdapter(this, memberList);
+        MemberRecyclerAdapter mMemberRecyclerAdapter = new MemberRecyclerAdapter(mContext, memberList);
         mRecyclerItems.setLayoutManager(mMemberLayoutManager);
         mRecyclerItems.setAdapter(mMemberRecyclerAdapter);
         mMemberRecyclerAdapter.notifyDataSetChanged();
@@ -77,7 +76,7 @@ public class DashboardActivity extends AppCompatActivity {
             try {
                 String token = "token";
                 String data = URLEncoder.encode("username","UTF-8")+"="+URLEncoder.encode(token,"UTF-8");
-                DB_con db = new DB_con(mContext, savedInfo.memberFetchAll, data);
+                DB_con db = new DB_con(savedInfo.memberFetchAll, data);
                 mResponse = db.getConnection();
 
 

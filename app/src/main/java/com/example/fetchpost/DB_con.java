@@ -1,7 +1,6 @@
 package com.example.fetchpost;
 
 
-import android.content.Context;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -17,29 +16,20 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class DB_con{
+class DB_con{
 
-    private static final String TAG = "DB_con";
     private String Url;
     private String data;
     private String result = "";
-    Context mContext;
 
 
-
-    public DB_con(Context context, String url) {
-        this.Url = url;
-        this.mContext = context;
-    }
-
-    public DB_con(Context context, String url, String data) {
+    DB_con(String url, String data) {
         this.data = data;
         this.Url = url;
-        this.mContext = context;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public String getConnection(){
+    String getConnection(){
         try {
             URL url = new URL(Url);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();

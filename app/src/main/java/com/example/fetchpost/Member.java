@@ -4,7 +4,6 @@ package com.example.fetchpost;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -19,7 +18,6 @@ public class Member {
     private Context mContext;
     String responce;
 
-    private static final String TAG = "Member";
 
     Member(){}
 
@@ -98,11 +96,11 @@ public class Member {
         protected String doInBackground(String... strings) {
             try {
                 String data = URLEncoder.encode("username","UTF-8")+"="+URLEncoder.encode(username,"UTF-8");
-                DB_con db = new DB_con(mContext, savedInfo.memberFetch, data);
+                DB_con db = new DB_con(savedInfo.memberFetch, data);
                 responce = db.getConnection();
                 JSONObject json_data = new JSONObject(responce);
                 setData(json_data);
-                Log.d(TAG, "doInBackground: json : " +json_data.getString("lname"));
+
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             } catch (JSONException e) {

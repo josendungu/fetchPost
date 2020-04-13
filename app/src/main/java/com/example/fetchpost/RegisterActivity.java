@@ -133,7 +133,7 @@ public class RegisterActivity extends AppCompatActivity {
                         +"&&"+URLEncoder.encode("last_name","UTF-8")+"="+URLEncoder.encode(lName,"UTF-8")
                         +"&&"+URLEncoder.encode("email","UTF-8")+"="+URLEncoder.encode(email,"UTF-8")
                         +"&&"+URLEncoder.encode("phone","UTF-8")+"="+URLEncoder.encode(phone,"UTF-8");
-                DB_con db = new DB_con(mContext,savedInfo.add_member, data);
+                DB_con db = new DB_con(savedInfo.add_member, data);
                 responce = db.getConnection();
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
@@ -153,13 +153,11 @@ public class RegisterActivity extends AppCompatActivity {
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected String doInBackground(String... strings) {
-            DB_con db = new DB_con(mContext,savedInfo.validate, data);
+            DB_con db = new DB_con(savedInfo.validate, data);
             valResponce = db.getConnection();
             if(valResponce.equals(savedInfo.success)){
-                Log.d(TAG, "doInBackground: saved: in");
                 usernameState = true;
             }
-            Log.d(TAG, "doInBackground: " + valResponce);
             return null;
         }
     }
@@ -174,12 +172,11 @@ public class RegisterActivity extends AppCompatActivity {
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected String doInBackground(String... strings) {
-            DB_con db = new DB_con(mContext,savedInfo.validate, data);
+            DB_con db = new DB_con(savedInfo.validate, data);
             valResponce = db.getConnection();
             if(valResponce.equals(savedInfo.success)){
                 emailState = true;
             }
-            Log.d(TAG, "doInBackground2: " + valResponce);
             return null;
 
 
