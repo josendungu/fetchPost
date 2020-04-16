@@ -1,7 +1,6 @@
 package com.example.fetchpost;
 
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 
@@ -14,16 +13,13 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 public class Member {
-    private String member_id, username, email, phone, fname, lname;
-    private Context mContext;
-    String responce;
+    private String member_id, username, email, phone, fName, lName;
 
 
     Member(){}
 
-    Member(String username, Context context) {
+    Member(String username) {
         this.username = username;
-        this.mContext = context;
         new MemberFetch().execute();
 
     }
@@ -46,12 +42,12 @@ public class Member {
         this.phone = phone;
     }
 
-    public void setFname(String fname) {
-        this.fname = fname;
+    public void setFName(String fName) {
+        this.fName = fName;
     }
 
-    public void setLname(String lname) {
-        this.lname = lname;
+    public void setLName(String lName) {
+        this.lName = lName;
     }
 
     public String getMember_id() {
@@ -70,21 +66,30 @@ public class Member {
         return phone;
     }
 
-    public String getFname() {
-        return fname;
+    public String getFName() {
+        return fName;
     }
 
-    public String getLname() {
-        return lname;
+    public String getLName() {
+        return lName;
     }
 
     void setData(JSONObject json) throws JSONException {
         setMember_id(json.getString("member_id"));
         setUsername(json.getString("username"));
-        setLname(json.getString("lname"));
-        setFname(json.getString("fname"));
+        setLName(json.getString("lname"));
+        setFName(json.getString("fname"));
         setEmail(json.getString("email"));
         setPhone(json.getString("phone"));
+
+    }
+
+    void setLoggedData() {
+        savedInfo.loggedUsername = this.username;
+        savedInfo.loggedFirstName = this.fName;
+        savedInfo.loggedLastName = this.lName;
+        savedInfo.loggedEmail = this.email;
+        savedInfo.loggedPhoneNumber = this.phone;
 
     }
 
@@ -97,8 +102,8 @@ public class Member {
             try {
                 String data = URLEncoder.encode("username","UTF-8")+"="+URLEncoder.encode(username,"UTF-8");
                 DB_con db = new DB_con(savedInfo.memberFetch, data);
-                responce = db.getConnection();
-                JSONObject json_data = new JSONObject(responce);
+                String response = db.getConnection();
+                JSONObject json_data = new JSONObject(response);
                 setData(json_data);
 
             } catch (UnsupportedEncodingException e) {

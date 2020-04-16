@@ -19,4 +19,8 @@
     <string name="sign_google">Sign-in with google</string>
     <string name="welcome">Welcome</string>
     <string name="full_name">Full name</string>
+    <string name="remember_login">Remember Login</string>
+    <string name="preference_key">com.example.fetchpost.PREFERENCE_KEY</string>
+    <string name="login_state">loginState</string>
+
 </resources>

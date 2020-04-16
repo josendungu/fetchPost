@@ -1,5 +1,6 @@
 package com.example.fetchpost;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -20,8 +21,9 @@ import java.net.URLEncoder;
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText etFirstName, etLastName, etUsername, etPass, etPassConf, etPhone, etEmail;
-    private String fName, lName, username, pass, passConf, email, responce, phone;
+    private String fName, lName, username, pass, passConf, email, phone;
     private Context mContext;
+    private Boolean loginSuccess = false, valUsername = false, valEmail = false;
     private static final String TAG = "RegisterActivity";
     Boolean usernameState  , emailState ;
 
@@ -88,7 +90,7 @@ public class RegisterActivity extends AppCompatActivity {
                 } else {
                     try {
                         new ValEmail().execute();
-                        new ValUsername().execute();
+                        new valUsername().execute();
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
@@ -98,7 +100,16 @@ public class RegisterActivity extends AppCompatActivity {
                     } else if(emailState){
                         etEmail.setError("Email already in use");
                     } else {
+
                         new RegisterTask().execute();
+                        if(loginSuccess = true){
+                            Intent intent = new Intent(mContext, LoginActivity.class);
+                            intent.putExtra(LoginActivity.MESSAGE, username +" Your account was successfully created. Please login!");
+                            intent.putExtra(LoginActivity.USERNAME_PASSED, username);
+                            startActivity(intent);
+                        }
+
+
                     }
                 }
 
@@ -106,59 +117,86 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+
+
+
+
     }
 
+
+
+    @SuppressLint("StaticFieldLeak")
     public class RegisterTask extends AsyncTask<String,String,String> {
 
-        @Override
-        protected void onPostExecute(String s) {
-            Log.d(TAG, "onPostExecute: "+responce);
-            if (responce.equals(savedInfo.success)){
-                Intent intent = new Intent(mContext, LoginActivity.class);
-                intent.putExtra(LoginActivity.MESSAGE, username +" Your account was successfully created. Please login!");
-                intent.putExtra(LoginActivity.USERNAME_PASSED, username);
-                startActivity(intent);
-            }
+        private String data;
 
-            super.onPostExecute(s);
-        }
-
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
-        protected String doInBackground(String... strings) {
+        protected void onPreExecute() {
+            super.onPreExecute();
             try {
-                String data = URLEncoder.encode("username","UTF-8")+"="+URLEncoder.encode(username,"UTF-8")
+                data = URLEncoder.encode("username","UTF-8")+"="+URLEncoder.encode(username,"UTF-8")
                         +"&&"+URLEncoder.encode("pass","UTF-8")+"="+URLEncoder.encode(pass,"UTF-8")
                         +"&&"+URLEncoder.encode("first_name","UTF-8")+"="+URLEncoder.encode(fName,"UTF-8")
                         +"&&"+URLEncoder.encode("last_name","UTF-8")+"="+URLEncoder.encode(lName,"UTF-8")
                         +"&&"+URLEncoder.encode("email","UTF-8")+"="+URLEncoder.encode(email,"UTF-8")
                         +"&&"+URLEncoder.encode("phone","UTF-8")+"="+URLEncoder.encode(phone,"UTF-8");
-                DB_con db = new DB_con(savedInfo.add_member, data);
-                responce = db.getConnection();
+
+
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-
-            return responce;
         }
-    }
 
-    public class ValUsername extends AsyncTask<String, String,String>{
-        String valResponce;
-        String data = URLEncoder.encode("username","UTF-8")+"="+URLEncoder.encode(username,"UTF-8");
 
-        public ValUsername() throws UnsupportedEncodingException {
+
+        @Override
+        protected void onPostExecute(String response) {
+            Log.d(TAG, "onPostExecute: "+ response);
+            if (response.equals(savedInfo.success)){
+                loginSuccess = true;
+            }
+
+            super.onPostExecute(response);
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected String doInBackground(String... strings) {
-            DB_con db = new DB_con(savedInfo.validate, data);
-            valResponce = db.getConnection();
-            if(valResponce.equals(savedInfo.success)){
-                usernameState = true;
+            DB_con db = new DB_con(savedInfo.add_member, data);
+            return db.getConnection();
+        }
+    }
+
+
+    public class valUsername extends AsyncTask<String, String, String>{
+
+        private String data_username, response;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            try {
+                data_username = URLEncoder.encode("email","UTF-8")+"="+URLEncoder.encode(email,"UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
             }
-            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            super.onPostExecute(response);
+
+            if (response == savedInfo.success){
+                valUsername = true;
+            }
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        protected String doInBackground(String... strings) {
+            DB_con db =  new DB_con(savedInfo.validate, data_username);
+            return db.getConnection();
         }
     }
 

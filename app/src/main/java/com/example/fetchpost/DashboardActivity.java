@@ -39,7 +39,8 @@ public class DashboardActivity extends AppCompatActivity {
         mRecyclerItems = (RecyclerView) findViewById(R.id.member_list);
 
         String logged_username = getIntent().getStringExtra(USERNAME_REF);
-        Member logged_member = new Member(logged_username, mContext);
+        Member logged_member = new Member(logged_username);
+        logged_member.setLoggedData();
         String welcome_text = "Welcome " + logged_member.getUsername().toUpperCase();
         tvUsername.setText(welcome_text);
         new MemberFetchAll().execute();
@@ -47,6 +48,8 @@ public class DashboardActivity extends AppCompatActivity {
 
 
     }
+
+
 
     public void initializeDisplay(List<Member> memberList){
         LinearLayoutManager mMemberLayoutManager = new LinearLayoutManager(this);
@@ -58,7 +61,6 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     public class MemberFetchAll extends AsyncTask<String,String,String>{
-
 
         private String mResponse;
         private List<Member> memberList = new ArrayList<>();

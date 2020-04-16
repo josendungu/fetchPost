@@ -42,7 +42,7 @@ public class MemberRecyclerAdapter extends RecyclerView.Adapter<MemberRecyclerAd
         Member member = memberList.get(position);
         holder.mTextUsername.setText(member.getUsername().toUpperCase());
         holder.mTextMemberId.setText(member.getMember_id());
-        String name = member.getFname() + " " + member.getLname();
+        String name = member.getFName() + " " + member.getLName();
         holder.mTextName.setText(name);
         holder.mMemberUsername = member.getUsername();
 

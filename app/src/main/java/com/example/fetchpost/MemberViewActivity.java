@@ -25,9 +25,9 @@ public class MemberViewActivity extends AppCompatActivity {
 
         Context mContext = this;
         String username = getIntent().getStringExtra(MEMBER_USERNAME);
-        Member member = new Member(username, mContext);
+        Member member = new Member(username);
 
-        String name = member.getFname()+" "+member.getLname();
+        String name = member.getFName()+" "+member.getLName();
 
         tvUsername.setText(member.getUsername().toUpperCase());
         tvPhone.setText(member.getPhone());
