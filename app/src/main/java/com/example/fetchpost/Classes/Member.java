@@ -3,6 +3,7 @@ package com.example.fetchpost;
 
 import android.os.AsyncTask;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -14,6 +15,7 @@ import java.net.URLEncoder;
 
 public class Member {
     private String member_id, username, email, phone, fName, lName;
+    private static final String TAG = "Member";
 
 
     Member(){}
@@ -21,6 +23,7 @@ public class Member {
     Member(String username) {
         this.username = username;
         new MemberFetch().execute();
+        Log.d(TAG, "Member: initialized" + username );
 
     }
 
@@ -75,12 +78,15 @@ public class Member {
     }
 
     void setData(JSONObject json) throws JSONException {
+        Log.d(TAG, "setData: Logging" + json.getString("lname"));
         setMember_id(json.getString("member_id"));
         setUsername(json.getString("username"));
         setLName(json.getString("lname"));
         setFName(json.getString("fname"));
         setEmail(json.getString("email"));
         setPhone(json.getString("phone"));
+
+        Log.d(TAG, "setData: " + getLName());
 
     }
 
@@ -103,6 +109,8 @@ public class Member {
                 String data = URLEncoder.encode("username","UTF-8")+"="+URLEncoder.encode(username,"UTF-8");
                 DB_con db = new DB_con(savedInfo.memberFetch, data);
                 String response = db.getConnection();
+
+                Log.d(TAG, "doInBackground: " + username + response);
                 JSONObject json_data = new JSONObject(response);
                 setData(json_data);
 

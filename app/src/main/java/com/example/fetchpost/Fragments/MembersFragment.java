@@ -1,14 +1,17 @@
 package com.example.fetchpost;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,47 +23,43 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class DashboardActivity extends AppCompatActivity {
+public class MembersFragment extends Fragment {
+
     public static final  String USERNAME_REF = "com.example.fetchpost.USERNAME_REF";
-    private static final String TAG = "DashboardActivity";
+    private RecyclerView mRecyclerView;
 
-    private Context mContext;
-    private RecyclerView mRecyclerItems;
-
-
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        mContext = this;
-        TextView tvUsername = (TextView) findViewById(R.id.username);
-        mRecyclerItems = (RecyclerView) findViewById(R.id.member_list);
+        View view  = inflater.inflate(R.layout.fragment_members, container,false);
 
-        String logged_username = getIntent().getStringExtra(USERNAME_REF);
+        TextView tvUsername = (TextView) view.findViewById(R.id.username);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.member_list);
+
+        String logged_username = Objects.requireNonNull(getActivity()).getIntent().getStringExtra(USERNAME_REF);
         Member logged_member = new Member(logged_username);
         logged_member.setLoggedData();
         String welcome_text = "Welcome " + logged_member.getUsername().toUpperCase();
         tvUsername.setText(welcome_text);
         new MemberFetchAll().execute();
-
-
-
+        return view;
     }
 
-
-
-    public void initializeDisplay(List<Member> memberList){
-        LinearLayoutManager mMemberLayoutManager = new LinearLayoutManager(this);
-        MemberRecyclerAdapter mMemberRecyclerAdapter = new MemberRecyclerAdapter(mContext, memberList);
-        mRecyclerItems.setLayoutManager(mMemberLayoutManager);
-        mRecyclerItems.setAdapter(mMemberRecyclerAdapter);
+    private void initializeDisplay(List<Member> memberList){
+        LinearLayoutManager mMemberLayoutManager = new LinearLayoutManager(getActivity());
+        MemberRecyclerAdapter mMemberRecyclerAdapter = new MemberRecyclerAdapter(getActivity(), memberList);
+        mRecyclerView.setLayoutManager(mMemberLayoutManager);
+        mRecyclerView.setAdapter(mMemberRecyclerAdapter);
         mMemberRecyclerAdapter.notifyDataSetChanged();
 
     }
 
-    public class MemberFetchAll extends AsyncTask<String,String,String>{
+
+    public class MemberFetchAll extends AsyncTask<String,String,String> {
 
         private String mResponse;
         private List<Member> memberList = new ArrayList<>();
@@ -91,7 +90,6 @@ public class DashboardActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.d(TAG, "onPostExecute: response: "+ mResponse);
             try {
                 mJsonArray = new JSONArray(mResponse);
                 int i = 0;
@@ -101,7 +99,6 @@ public class DashboardActivity extends AppCompatActivity {
                     Member member = new Member();
                     member.setData(myObj);
                     memberList.add(member);
-                    Log.d(TAG, "onPostExecute: size" + memberList.size());
                     i++;
                 }
                 initializeDisplay(memberList);

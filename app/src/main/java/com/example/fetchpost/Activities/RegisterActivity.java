@@ -74,6 +74,7 @@ public class RegisterActivity extends AppCompatActivity {
                 emailState = false;
 
                 if(fName == null){
+                    Log.d(TAG, "onClick: first name null");
                     etFirstName.setError("Please enter your first name");
                 } else if(email == null){
                     etEmail.setError("Please enter your email.");
@@ -108,19 +109,10 @@ public class RegisterActivity extends AppCompatActivity {
                             intent.putExtra(LoginActivity.USERNAME_PASSED, username);
                             startActivity(intent);
                         }
-
-
                     }
                 }
-
-
             }
         });
-
-
-
-
-
     }
 
 
@@ -151,7 +143,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String response) {
-            Log.d(TAG, "onPostExecute: "+ response);
             if (response.equals(savedInfo.success)){
                 loginSuccess = true;
             }
@@ -212,6 +203,7 @@ public class RegisterActivity extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             DB_con db = new DB_con(savedInfo.validate, data);
             valResponce = db.getConnection();
+            Log.d(TAG, "doInBackground: "+ valResponce);
             if(valResponce.equals(savedInfo.success)){
                 emailState = true;
             }
