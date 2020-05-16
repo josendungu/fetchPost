@@ -3,7 +3,6 @@
     package="com.example.fetchpost">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,11 +11,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MemberViewActivity"></activity>
-        <activity android:name=".ForgotActivity" />
-        <activity android:name=".DashboardActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".Activities.MemberViewActivity"></activity>
+        <activity android:name=".Activities.ForgotActivity" />
+        <activity android:name=".Activities.DashboardActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity android:name=".Activities.RegisterActivity" />
+        <activity android:name=".Activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,5 +25,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

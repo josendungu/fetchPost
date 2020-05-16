@@ -1,4 +1,4 @@
-package com.example.fetchpost;
+package com.example.fetchpost.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.fetchpost.Classes.Member;
+import com.example.fetchpost.Activities.MemberViewActivity;
+import com.example.fetchpost.R;
 
 import java.util.List;
 

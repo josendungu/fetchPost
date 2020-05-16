@@ -1,4 +1,4 @@
-package com.example.fetchpost;
+package com.example.fetchpost.Activities;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,6 +16,10 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fetchpost.Fragments.MembersFragment;
+import com.example.fetchpost.Fragments.MessageFragment;
+import com.example.fetchpost.Fragments.ProfileFragment;
+import com.example.fetchpost.R;
 import com.google.android.material.navigation.NavigationView;
 
 public class DashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -34,7 +38,6 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
         mContext = this;
 
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBarLayout);
         setSupportActionBar(toolbar);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -46,7 +49,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         toggle.syncState();
 
         if(savedInstanceState == null){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MessageFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MembersFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_members);
         }
 
@@ -69,6 +72,8 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch(menuItem.getItemId()){
+            case R.id.nav_members:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MembersFragment()).commit();
             case R.id.nav_message:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MessageFragment()).commit();
                 break;

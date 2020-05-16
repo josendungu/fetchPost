@@ -1,4 +1,4 @@
-package com.example.fetchpost;
+package com.example.fetchpost.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,9 @@ import android.widget.EditText;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.fetchpost.Helpers.DB_con;
+import com.example.fetchpost.R;
+import com.example.fetchpost.Helpers.savedInfo;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.UnsupportedEncodingException;

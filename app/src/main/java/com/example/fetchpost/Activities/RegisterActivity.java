@@ -1,4 +1,4 @@
-package com.example.fetchpost;
+package com.example.fetchpost.Activities;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -14,6 +14,10 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.fetchpost.Helpers.DB_con;
+import com.example.fetchpost.R;
+import com.example.fetchpost.Helpers.savedInfo;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -153,6 +157,7 @@ public class RegisterActivity extends AppCompatActivity {
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected String doInBackground(String... strings) {
+
             DB_con db = new DB_con(savedInfo.add_member, data);
             return db.getConnection();
         }

@@ -1,4 +1,4 @@
-package com.example.fetchpost;
+package com.example.fetchpost.Fragments;
 
 import android.os.AsyncTask;
 import android.os.Build;
@@ -15,6 +15,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fetchpost.Adapters.MemberRecyclerAdapter;
+import com.example.fetchpost.Helpers.DB_con;
+import com.example.fetchpost.Classes.Member;
+import com.example.fetchpost.R;
+import com.example.fetchpost.Helpers.savedInfo;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,7 +33,7 @@ import java.util.Objects;
 
 public class MembersFragment extends Fragment {
 
-    public static final  String USERNAME_REF = "com.example.fetchpost.USERNAME_REF";
+    private static final  String USERNAME_REF = "com.example.fetchpost.USERNAME_REF";
     private RecyclerView mRecyclerView;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)

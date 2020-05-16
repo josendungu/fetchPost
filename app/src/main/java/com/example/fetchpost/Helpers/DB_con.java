@@ -1,4 +1,4 @@
-package com.example.fetchpost;
+package com.example.fetchpost.Helpers;
 
 
 import android.os.Build;
@@ -16,20 +16,20 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-class DB_con{
+public class DB_con{
 
     private String Url;
     private String data;
     private String result = "";
 
 
-    DB_con(String url, String data) {
+    public DB_con(String url, String data) {
         this.data = data;
         this.Url = url;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    String getConnection(){
+    public String getConnection(){
         try {
             URL url = new URL(Url);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();

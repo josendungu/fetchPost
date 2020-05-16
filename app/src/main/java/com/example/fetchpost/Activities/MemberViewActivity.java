@@ -1,4 +1,4 @@
-package com.example.fetchpost;
+package com.example.fetchpost.Activities;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,6 +6,10 @@ import android.util.Log;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.fetchpost.Classes.Member;
+import com.example.fetchpost.R;
+import com.example.fetchpost.Helpers.savedInfo;
 
 public class MemberViewActivity extends AppCompatActivity {
     public static final String MEMBER_USERNAME = "com.example.fetchpost.MEMBER_USERNAME";

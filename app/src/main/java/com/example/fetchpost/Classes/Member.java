@@ -1,4 +1,4 @@
-package com.example.fetchpost;
+package com.example.fetchpost.Classes;
 
 
 import android.os.AsyncTask;
@@ -6,6 +6,9 @@ import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
+
+import com.example.fetchpost.Helpers.DB_con;
+import com.example.fetchpost.Helpers.savedInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,9 +21,9 @@ public class Member {
     private static final String TAG = "Member";
 
 
-    Member(){}
+    public Member(){}
 
-    Member(String username) {
+    public Member(String username) {
         this.username = username;
         new MemberFetch().execute();
         Log.d(TAG, "Member: initialized" + username );
@@ -77,7 +80,7 @@ public class Member {
         return lName;
     }
 
-    void setData(JSONObject json) throws JSONException {
+    public void setData(JSONObject json) throws JSONException {
         Log.d(TAG, "setData: Logging" + json.getString("lname"));
         setMember_id(json.getString("member_id"));
         setUsername(json.getString("username"));
@@ -90,7 +93,7 @@ public class Member {
 
     }
 
-    void setLoggedData() {
+    public void setLoggedData() {
         savedInfo.loggedUsername = this.username;
         savedInfo.loggedFirstName = this.fName;
         savedInfo.loggedLastName = this.lName;

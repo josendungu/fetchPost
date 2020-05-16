@@ -1,4 +1,4 @@
-package com.example.fetchpost;
+package com.example.fetchpost.Helpers;
 
 public class savedInfo {
 
@@ -6,26 +6,26 @@ public class savedInfo {
     private static String baseUrl = "http://192.168.43.29/fetchpost/";
     //192.168.43.29 - phone's hotspot
     //192.168.137.1 - laptop's hotspot
-    static String add_member = baseUrl+"register.php";
-    static String login = baseUrl+"login.php";
-    static String forgot = baseUrl+"forgot.php";
-    static String validate = baseUrl+"validate.php";
-    static String memberFetch = baseUrl+"memFetch.php";
-    static String memberFetchAll = baseUrl+"memFetchAll.php";
+    public static String add_member = baseUrl+"register.php";
+    public static String login = baseUrl+"login.php";
+    public static String forgot = baseUrl+"forgot.php";
+    public static String validate = baseUrl+"validate.php";
+    public static String memberFetch = baseUrl+"memFetch.php";
+    public static String memberFetchAll = baseUrl+"memFetchAll.php";
 
 
     //Logged in details
-    static String loggedUsername = "";
-    static String loggedEmail = "";
-    static String loggedPhoneNumber = "";
-    static String loggedFirstName = "";
-    static String loggedLastName = "";
+    public static String loggedUsername = "";
+    public static String loggedEmail = "";
+    public static String loggedPhoneNumber = "";
+    public static String loggedFirstName = "";
+    public static String loggedLastName = "";
 
 
     //error and success details from database connection
-    static String success = "1";
-    static String memDontExist = "2";
-    static String passDontMatch = "3";
+    public static String success = "1";
+    public static String memDontExist = "2";
+    public static String passDontMatch = "3";
     public static String postNotPassed = "10";
 
 
