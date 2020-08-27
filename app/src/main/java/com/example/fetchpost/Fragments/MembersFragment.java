@@ -1,12 +1,12 @@
 package com.example.fetchpost.Fragments;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,10 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fetchpost.Adapters.MemberRecyclerAdapter;
-import com.example.fetchpost.Helpers.DB_con;
 import com.example.fetchpost.Classes.Member;
-import com.example.fetchpost.R;
+import com.example.fetchpost.Helpers.DB_con;
 import com.example.fetchpost.Helpers.savedInfo;
+import com.example.fetchpost.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,12 +29,12 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class MembersFragment extends Fragment {
 
     private static final  String USERNAME_REF = "com.example.fetchpost.USERNAME_REF";
     private RecyclerView mRecyclerView;
+    private Context mContext;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Nullable
@@ -42,22 +42,20 @@ public class MembersFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view  = inflater.inflate(R.layout.fragment_members, container,false);
-
-        TextView tvUsername = (TextView) view.findViewById(R.id.username);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.member_list);
-
-        String logged_username = Objects.requireNonNull(getActivity()).getIntent().getStringExtra(USERNAME_REF);
-        Member logged_member = new Member(logged_username);
-        logged_member.setLoggedData();
-        String welcome_text = "Welcome " + logged_member.getUsername().toUpperCase();
-        tvUsername.setText(welcome_text);
         new MemberFetchAll().execute();
         return view;
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mContext =  context;
+    }
+
     private void initializeDisplay(List<Member> memberList){
-        LinearLayoutManager mMemberLayoutManager = new LinearLayoutManager(getActivity());
-        MemberRecyclerAdapter mMemberRecyclerAdapter = new MemberRecyclerAdapter(getActivity(), memberList);
+        LinearLayoutManager mMemberLayoutManager = new LinearLayoutManager(mContext);
+        MemberRecyclerAdapter mMemberRecyclerAdapter = new MemberRecyclerAdapter(mContext, memberList);
         mRecyclerView.setLayoutManager(mMemberLayoutManager);
         mRecyclerView.setAdapter(mMemberRecyclerAdapter);
         mMemberRecyclerAdapter.notifyDataSetChanged();

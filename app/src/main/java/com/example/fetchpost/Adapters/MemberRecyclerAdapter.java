@@ -58,12 +58,12 @@ public class MemberRecyclerAdapter extends RecyclerView.Adapter<MemberRecyclerAd
         return memberList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder{
 
-        public final TextView mTextUsername, mTextName, mTextMemberId;
-        public String mMemberUsername;
+        final TextView mTextUsername, mTextName, mTextMemberId;
+        String mMemberUsername;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             mTextUsername = (TextView) itemView.findViewById(R.id.username);
             mTextMemberId = (TextView) itemView.findViewById(R.id.member_id);

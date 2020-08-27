@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fetchpost.Classes.Member;
 import com.example.fetchpost.Fragments.MembersFragment;
 import com.example.fetchpost.Fragments.MessageFragment;
 import com.example.fetchpost.Fragments.ProfileFragment;
@@ -36,11 +38,17 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        mContext = this;
+
+        TextView tvUsername = (TextView) findViewById(R.id.username);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBarLayout);
         setSupportActionBar(toolbar);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        String logged_username = getIntent().getStringExtra(USERNAME_REF);
+        Member logged_member = new Member(logged_username);
+        logged_member.setLoggedData();
+        String welcome_text = "Welcome " + logged_member.getUsername().toUpperCase();
+        tvUsername.setText(welcome_text);
 
         NavigationView navigationView = findViewById(R.id.nav_viewer);
         navigationView.setNavigationItemSelectedListener(this);
@@ -74,6 +82,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         switch(menuItem.getItemId()){
             case R.id.nav_members:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MembersFragment()).commit();
+                break;
             case R.id.nav_message:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MessageFragment()).commit();
                 break;
